@@ -8,11 +8,7 @@ st.set_page_config(page_title="📬 Bulk Mailer", layout="centered")
 st.title("📬 Bulk Mailer with Custom Names")
 
 st.markdown("""
-This tool lets you send bulk emails with name personalization. Your file must contain two columns:
-- **email**: recipient email addresses
-- **name**: first or full name for each recipient
-
-You can use `$name` in your subject or body to insert names dynamically.
+Upload a file with `email` and `name` columns. You can use `$name` in the subject or body to personalize your emails.
 """)
 
 with st.form("mail_form"):
@@ -55,8 +51,10 @@ if send:
 
             with st.spinner("Sending emails..."):
                 for _, row in df.iterrows():
-                    recipient = row["email"]
-                    name = row["name"]
+                    recipient = str(row["email"]).strip()
+                    name_raw = row["name"]
+                    name = str(name_raw).strip() if pd.notna(name_raw) else "there"
+
                     personalized_subject = subject.replace("$name", name)
                     personalized_body = body.replace("$name", name)
 
@@ -73,7 +71,7 @@ if send:
                         failures += 1
 
             server.quit()
-            st.success(f"✅ Sent: {successes}, ❌ Failed: {failures}")
+            st.success(f"✅ Emails sent: {successes}, ❌ Failed: {failures}")
 
         except Exception as e:
             st.error(f"Error: {str(e)}")
