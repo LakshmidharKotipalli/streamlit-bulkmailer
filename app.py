@@ -49,9 +49,19 @@ if send:
                 st.stop()
 
             # Detect SMTP server
+            # Detect SMTP based on domain
             domain = email.split("@")[1]
-            smtp_server = "smtp.gmail.com" if domain == "gmail.com" else f"mail.{domain}"
-            smtp_port = 587
+
+            if domain == "gmail.com":
+                smtp_server = "smtp.gmail.com"
+                smtp_port = 587
+            elif domain == "ganait.com":
+                smtp_server = "smtp.office365.com"  # or the one provided by Ganait IT
+                smtp_port = 587
+            else:
+                smtp_server = f"mail.{domain}"
+                smtp_port = 587
+
 
             server = smtplib.SMTP(smtp_server, smtp_port)
             server.starttls()
