@@ -5,7 +5,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # Optional Access Password (set this to something secret)
-ACCESS_PASSWORD = "bulkmailer123"
+ACCESS_PASSWORD = "https://bulkmailer.streamlit.app/"
 
 st.set_page_config(page_title="🔐 Bulk Mailer", layout="centered")
 st.title("🔐 Secure Bulk Mailer for Trusted Users")
